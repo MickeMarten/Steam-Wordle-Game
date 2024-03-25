@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.steamGreen {
+  background-color: #525d4b;
+}
+
+.steamDark {
+  background-color: #3e4637;
+}
+
+body {
+  background-color: #3e4637;
+}
