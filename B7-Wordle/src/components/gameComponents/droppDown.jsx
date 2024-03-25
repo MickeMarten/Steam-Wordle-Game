@@ -1,4 +1,9 @@
 function LetterQuantityDropdown({ label }) {
+  const options = [];
+
+  for (let i = 2; i < 11; i++) {
+    options.push(<option key={i}>{i}</option>);
+  }
   return (
     <div>
       <label htmlFor="letterQuantity" className="text-lg mb-2">
@@ -12,15 +17,7 @@ function LetterQuantityDropdown({ label }) {
         <option value="defaultValue" disabled selected>
           Select your option
         </option>
-        <option value="2">2: Easy</option>
-        <option value="3">3: Easy</option>
-        <option value="4">4: Easy</option>
-        <option value="5">5: Medium</option>
-        <option value="6">6: Medium</option>
-        <option value="7">7: Hard</option>
-        <option value="8">8: Hard</option>
-        <option value="9">9: Hard</option>
-        <option value="10">10: Hard</option>
+        {options}
       </select>
     </div>
   );
