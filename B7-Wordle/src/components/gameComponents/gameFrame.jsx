@@ -8,6 +8,8 @@ function GameFrame() {
   const [gameInfo, setGameInfo] = useState('Choose gamemode');
   const [wordGuess, setWordGuess] = useState('');
   const [result, setResult] = useState([]);
+  const [includeDouble, setIncludeDouble] = useState(false);
+  const [letterQuantity, setLetterQuantity] = useState(0);
 
   const mockList = 'aylin';
 
@@ -40,16 +42,37 @@ function GameFrame() {
 
       <menu className="steamDark border border-white max-w-3xl h-96 flex flex-col justify-center items-center p-6 rounded-lg mb-5">
         <Checkbox
+          checked={includeDouble}
           checkOne="Yes"
           checkTwo="No"
           checkBoxInfo="Should the word include double letters?"
+          handleChange={(e) => {
+            setIncludeDouble(e.target.checked);
+          }}
         />
 
-        <LetterQuantityDropdown label="Choose how many letters the word should include" />
+        <LetterQuantityDropdown
+          label="Choose how many letters the word should include"
+          handleChange={(e) => {
+            setLetterQuantity(e.target.value);
+          }}
+        />
+
         <Button
           label="Start game!"
           handleClick={() => {
             setGameInfo('Start guessing!');
+            const loot = {
+              letterQuantity: letterQuantity,
+              includeDouble: includeDouble,
+            };
+            fetch('/api/gamehandler', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(loot),
+            });
           }}
         />
         <PlayerInput

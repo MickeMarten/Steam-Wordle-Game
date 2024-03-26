@@ -1,8 +1,12 @@
-function LetterQuantityDropdown({ label }) {
+function LetterQuantityDropdown({ label, handleChange }) {
   const options = [];
 
   for (let i = 2; i < 11; i++) {
-    options.push(<option key={i}>{i}</option>);
+    options.push(
+      <option key={i} value={i}>
+        {i}
+      </option>
+    );
   }
   return (
     <div>
@@ -13,6 +17,7 @@ function LetterQuantityDropdown({ label }) {
         name="letters"
         id="letterQuantity"
         className="steamGreen text-white border border-white-600 rounded-md py-2 px-4 mb-4 w-full"
+        onChange={handleChange}
       >
         <option value="defaultValue" disabled selected>
           Select your option

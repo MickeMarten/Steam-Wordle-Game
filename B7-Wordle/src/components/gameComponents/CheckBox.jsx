@@ -1,4 +1,4 @@
-function Checkbox({ checkOne, checkTwo, checkBoxInfo }) {
+function Checkbox({ checkOne, checkTwo, checkBoxInfo, handleChange }) {
   return (
     <div className="flex justify-between w-full mb-4">
       <p>{checkBoxInfo}</p>
@@ -9,18 +9,9 @@ function Checkbox({ checkOne, checkTwo, checkBoxInfo }) {
           name="includeDouble"
           id="IncludeDbl"
           className="mr-2"
+          onChange={handleChange}
         />
         {checkOne}
-      </label>
-
-      <label htmlFor="notIncludeDbl" className="flex items-center">
-        <input
-          type="checkbox"
-          name="notIncludeDouble"
-          id="notIncludeDbl"
-          className="mr-2"
-        />
-        {checkTwo}
       </label>
     </div>
   );
