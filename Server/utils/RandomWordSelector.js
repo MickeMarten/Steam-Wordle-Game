@@ -1,6 +1,6 @@
 function randomWordSelector(wordsArray, length, doubleLetters) {
   const selectableWords = wordsArray.filter((word) => {
-    if (word.length < length) {
+    if (word.length !== Number(length)) {
       return false;
     }
 
@@ -13,6 +13,7 @@ function randomWordSelector(wordsArray, length, doubleLetters) {
 
     return true;
   });
+  console.log(selectableWords);
 
   if (selectableWords.length === 0) {
     return null;
@@ -20,7 +21,7 @@ function randomWordSelector(wordsArray, length, doubleLetters) {
 
   const randomIndex = Math.floor(Math.random() * selectableWords.length);
   const selectedWord = selectableWords[randomIndex];
-
+  console.log(length, doubleLetters, selectedWord);
   return selectedWord;
 }
 

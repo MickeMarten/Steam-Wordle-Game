@@ -1,7 +1,6 @@
 import randomWordSelector from '../utils/RandomWordSelector.js';
-import { getPlayerMode } from '../routes/gameModehandler.js';
 
-async function gameModehandler() {
+async function gameModehandler(playerMode) {
   const mockWords = [
     'ab',
     'cd',
@@ -33,19 +32,19 @@ async function gameModehandler() {
     'strong',
     'smart',
     'kind',
-    'qwertyuias',
-    'qqertyuias',
+    'qwertyuia',
+    'qqertyuia',
+    'poiuytrdfg',
+    'mnbvcdfghy',
+    'poijhbgvfr',
   ];
-  const playerMode = getPlayerMode();
-  const letterQuantity = playerMode.map((item) => item.letterQuantity);
-  const includeDoubleLetters = playerMode.map((item) => item.includeDouble);
+
   const randomWord = randomWordSelector(
     mockWords,
-    letterQuantity,
-    includeDoubleLetters
+    playerMode.letterQuantity,
+    playerMode.includeDouble
   );
-  console.log(randomWord);
   return randomWord;
 }
 
-gameModehandler();
+export default gameModehandler;

@@ -3,17 +3,37 @@ import LetterQuantityDropdown from './droppDown';
 import PlayerInput from './PlayerInput';
 import Checkbox from './CheckBox';
 import { evaluateGameInput } from '../../Algorithms/gameHandler';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 function GameFrame() {
   const [gameInfo, setGameInfo] = useState('Choose gamemode');
   const [wordGuess, setWordGuess] = useState('');
   const [result, setResult] = useState([]);
   const [includeDouble, setIncludeDouble] = useState(false);
-  const [letterQuantity, setLetterQuantity] = useState(0);
+  const [letterQuantity, setLetterQuantity] = useState(2);
+  const [rightAnswer, setRightAnswer] = useState('');
 
-  const mockList = 'aylin';
+  async function postGameMode() {
+    const loot = {
+      letterQuantity: letterQuantity,
+      includeDouble: includeDouble,
+    };
+    const response = await fetch('/api/gamehandler', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(loot),
+    });
+    const data = await response.json();
+    console.log(data);
+    setRightAnswer(data.randomWord);
+  }
 
-  const evaluatePlayerInput = evaluateGameInput(wordGuess, mockList);
+  const guessWord = () => {
+    const evaluatePlayerInput = evaluateGameInput(wordGuess, rightAnswer);
+
+    setResult(evaluatePlayerInput);
+  };
 
   return (
     <section className="steamgreen w-[550px] h-[500px] flex flex-col items-center gap-10 text-white mt-5 border">
@@ -44,7 +64,6 @@ function GameFrame() {
         <Checkbox
           checked={includeDouble}
           checkOne="Yes"
-          checkTwo="No"
           checkBoxInfo="Should the word include double letters?"
           handleChange={(e) => {
             setIncludeDouble(e.target.checked);
@@ -62,17 +81,7 @@ function GameFrame() {
           label="Start game!"
           handleClick={() => {
             setGameInfo('Start guessing!');
-            const loot = {
-              letterQuantity: letterQuantity,
-              includeDouble: includeDouble,
-            };
-            fetch('/api/gamehandler', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(loot),
-            });
+            postGameMode();
           }}
         />
         <PlayerInput
@@ -83,17 +92,7 @@ function GameFrame() {
           }}
         />
 
-        <Button
-          label="Guess word"
-          handleClick={() => {
-            const newResult = evaluatePlayerInput.map((item) => ({
-              letter: item.letter,
-              result: item.result,
-            }));
-
-            setResult(newResult);
-          }}
-        />
+        <Button label="Guess word" handleClick={guessWord} />
       </menu>
     </section>
   );

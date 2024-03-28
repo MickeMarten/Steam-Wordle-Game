@@ -19,7 +19,7 @@ function LetterQuantityDropdown({ label, handleChange }) {
         className="steamGreen text-white border border-white-600 rounded-md py-2 px-4 mb-4 w-full"
         onChange={handleChange}
       >
-        <option value="defaultValue" disabled selected>
+        <option value="defaultValue" disabled>
           Select your option
         </option>
         {options}

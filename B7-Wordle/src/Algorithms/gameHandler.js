@@ -3,6 +3,7 @@ function handleStrings(str) {
 }
 
 export function evaluateGameInput(playerInput, gameWord) {
+  console.log('egi');
   const playerArray = handleStrings(playerInput);
   const gameArray = handleStrings(gameWord);
   const results = [];

@@ -1,19 +1,20 @@
+import gameModehandler from '../utils/gameModeHandlerUtils.js';
 import { Router } from 'express';
+import fs from 'fs';
+import  wordsJson  from '../utils/words_dictionary.json' with {type: "json"};
 const gameHandlerRouter = Router();
 
-const playerMode = [];
+let words;
 
-gameHandlerRouter.post('/gamehandler', (req, res) => {
-  const loot = req.body;
-  playerMode.push(loot);
-  console.log(playerMode);
-
-  console.log('Loot recived', loot);
-  res.status(200).json({ message: 'Loot recived' });
+fs.readFile('../utils/words_dictionary.json', (err, data) => {
+  console.log(data);
 });
+gameHandlerRouter.post('/gamehandler', async (req, res) => {
+  const loot = req.body;
+  let playerMode = loot;
+  const randomWord = await gameModehandler(playerMode);
 
-export function getPlayerMode() {
-  return playerMode;
-}
+  res.status(200).send({ randomWord: randomWord });
+});
 
 export default gameHandlerRouter;
