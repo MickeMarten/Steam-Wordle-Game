@@ -1,15 +1,13 @@
-import gameModehandler from '../utils/gameModeHandlerUtils.js';
+import gameModehandler from '../utils/randomWordSelector.js';
 import { Router } from 'express';
-import fs from 'fs';
-import  wordsJson  from '../utils/words_dictionary.json' with {type: "json"};
-const gameHandlerRouter = Router();
+const wordHandlerRouter = Router();
 
-let words;
+// let words;
 
-fs.readFile('../utils/words_dictionary.json', (err, data) => {
-  console.log(data);
-});
-gameHandlerRouter.post('/gamehandler', async (req, res) => {
+// fs.readFile('../utils/words_dictionary.json', (err, data) => {
+// });
+
+wordHandlerRouter.post('/gamemodehandler', async (req, res) => {
   const loot = req.body;
   let playerMode = loot;
   const randomWord = await gameModehandler(playerMode);
@@ -17,4 +15,4 @@ gameHandlerRouter.post('/gamehandler', async (req, res) => {
   res.status(200).send({ randomWord: randomWord });
 });
 
-export default gameHandlerRouter;
+export default wordHandlerRouter;

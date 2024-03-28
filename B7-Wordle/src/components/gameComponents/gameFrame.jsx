@@ -2,7 +2,7 @@ import Button from './button';
 import LetterQuantityDropdown from './droppDown';
 import PlayerInput from './PlayerInput';
 import Checkbox from './CheckBox';
-import { evaluateGameInput } from '../../Algorithms/gameHandler';
+import { evaluateGameInput } from '../../Algorithms/gameInputHandler';
 import { useEffect, useState } from 'react';
 function GameFrame() {
   const [gameInfo, setGameInfo] = useState('Choose gamemode');
@@ -17,7 +17,7 @@ function GameFrame() {
       letterQuantity: letterQuantity,
       includeDouble: includeDouble,
     };
-    const response = await fetch('/api/gamehandler', {
+    const response = await fetch('/api/gamemodehandler', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
