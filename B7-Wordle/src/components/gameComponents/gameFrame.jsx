@@ -10,7 +10,8 @@ function GameFrame() {
   const [result, setResult] = useState([]);
   const [includeDouble, setIncludeDouble] = useState(false);
   const [letterQuantity, setLetterQuantity] = useState(2);
-  const [rightAnswer, setRightAnswer] = useState('');
+  const [correctWord, setcorrectWord] = useState('');
+  console.log(result);
 
   async function postGameMode() {
     const loot = {
@@ -26,12 +27,11 @@ function GameFrame() {
     });
     const data = await response.json();
     console.log(data);
-    setRightAnswer(data.randomWord);
+    setcorrectWord(data.randomWord);
   }
 
   const guessWord = () => {
-    const evaluatePlayerInput = evaluateGameInput(wordGuess, rightAnswer);
-
+    const evaluatePlayerInput = evaluateGameInput(wordGuess, correctWord);
     setResult(evaluatePlayerInput);
   };
 
