@@ -2,8 +2,9 @@ import Router from 'express';
 
 const playerScoreRouter = Router();
 
-playerScoreRouter.get('/playerScoreData', (req, res) => {
-  res.send('Highscore');
+playerScoreRouter.post('/playerScoreData', async (req, res) => {
+  const playerResult = req.body;
+  console.log(playerResult);
 });
 
 export default playerScoreRouter;

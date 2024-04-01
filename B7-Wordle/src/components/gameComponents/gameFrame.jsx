@@ -2,6 +2,7 @@ import Button from './button';
 import LetterQuantityDropdown from './droppDown';
 import PlayerInput from './PlayerInput';
 import Checkbox from './CheckBox';
+import Modal from './CheckOutModal';
 import { evaluateGameInput } from '../../Algorithms/gameInputHandler';
 import { useEffect, useState } from 'react';
 function GameFrame() {
@@ -11,32 +12,68 @@ function GameFrame() {
   const [includeDouble, setIncludeDouble] = useState(false);
   const [letterQuantity, setLetterQuantity] = useState(2);
   const [correctWord, setcorrectWord] = useState('');
-  console.log(result);
+  const [resultsArray, setResultsArray] = useState([]);
+  const [playerName, setPlayerName] = useState('');
+  const [showModal, setShowModal] = useState(true);
+  const [wordGuessList, setWordGuessList] = useState([]);
 
-  async function postGameMode() {
-    const loot = {
-      letterQuantity: letterQuantity,
-      includeDouble: includeDouble,
-    };
-    const response = await fetch('/api/gamemodehandler', {
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  async function postToServer(url, payload) {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(loot),
+      body: JSON.stringify(payload),
     });
+
     const data = await response.json();
-    console.log(data);
     setcorrectWord(data.randomWord);
+    if (response.ok) {
+      console.log('Data arrived');
+    } else {
+      console.error('Data failed to deliverd');
+    }
+  }
+
+  async function playerResultsArray() {
+    const playerGuess = result.map((item) => item.letter);
+    const playerWords = playerGuess.join('');
+    setWordGuessList([...wordGuessList, playerWords]);
+
+    const playerResults = {
+      guess: wordGuessList,
+      correctWord: correctWord,
+      correctWordLength: letterQuantity,
+      includedDoubble: includeDouble,
+      playerName: playerName,
+    };
+
+    setResultsArray(playerResults);
+    console.log(resultsArray);
   }
 
   const guessWord = () => {
     const evaluatePlayerInput = evaluateGameInput(wordGuess, correctWord);
     setResult(evaluatePlayerInput);
+    //Duplicerad kod, bör fixas. 3 rader nedåt.
+    const ifPlayerWinWord = result.map(function (item) {
+      return item.letter;
+    });
+    playerResultsArray();
+    const playerWins = ifPlayerWinWord.join('');
+
+    if (playerWins === correctWord) {
+      setGameInfo('winner!');
+      toggleModal();
+    }
   };
 
   return (
-    <section className="steamgreen w-[550px] h-[500px] flex flex-col items-center gap-10 text-white mt-5 border">
+    <section className="steamgreen w-[550px] h-[700px] flex flex-col items-center gap-10 text-white mt-5 border">
       <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
         <p className="text-2xl">{gameInfo}</p>
       </div>
@@ -60,7 +97,7 @@ function GameFrame() {
         </ul>
       </div>
 
-      <menu className="steamDark border border-white max-w-3xl h-96 flex flex-col justify-center items-center p-6 rounded-lg mb-5">
+      <menu className="steamDark border border-white max-w-3xl h-[400px] flex flex-col justify-center items-center p-6 rounded-lg mb-5">
         <Checkbox
           checked={includeDouble}
           checkOne="Yes"
@@ -76,12 +113,24 @@ function GameFrame() {
             setLetterQuantity(e.target.value);
           }}
         />
+        <PlayerInput
+          label="Write your name here!"
+          handlePlayerInput={(e) => {
+            let input = e.target.value;
+            setPlayerName(input);
+          }}
+        />
 
         <Button
           label="Start game!"
           handleClick={() => {
-            setGameInfo('Start guessing!');
-            postGameMode();
+            const loot = {
+              letterQuantity: letterQuantity,
+              includeDouble: includeDouble,
+            };
+
+            setGameInfo(`Start guessing ${playerName}!`);
+            postToServer('/api/gamemodehandler', loot);
           }}
         />
         <PlayerInput
@@ -94,8 +143,47 @@ function GameFrame() {
 
         <Button label="Guess word" handleClick={guessWord} />
       </menu>
+      <Modal
+        playerName={playerName}
+        showModal={showModal}
+        onClick={() => {
+          postToServer('/api/playerScoreData', resultsArray);
+        }}
+      />
     </section>
   );
 }
 
 export default GameFrame;
+
+// Change name of postGameMode function
+// async function postGameMode() {
+//   const loot = {
+//     letterQuantity: letterQuantity,
+//     includeDouble: includeDouble,
+//   };
+//   const response = await fetch('/api/gamemodehandler', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(loot),
+//   });
+//   const data = await response.json();
+//   console.log(data);
+//   setcorrectWord(data.randomWord);
+// }
+// async function postGameResult() {
+//   const response = await fetch('/api/playerScoreData', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(resultsArray),
+//   });
+//   if (response.ok) {
+//     console.log('Result arrived');
+//   } else {
+//     console.error('Result failed to deliverd');
+//   }
+// }

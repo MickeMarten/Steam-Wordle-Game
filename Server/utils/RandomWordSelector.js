@@ -1,4 +1,4 @@
-function WordRandomizer(wordsArray, length, doubleLetters) {
+function wordRandomizer(wordsArray, length, doubleLetters) {
   const selectableWords = wordsArray.filter((word) => {
     if (word.length !== Number(length)) {
       return false;
@@ -43,7 +43,7 @@ getWordList();
 async function gameModehandler(playerMode) {
   const wordList = await getWordList();
 
-  const randomWord = WordRandomizer(
+  const randomWord = wordRandomizer(
     wordList,
     playerMode.letterQuantity,
     playerMode.includeDouble
