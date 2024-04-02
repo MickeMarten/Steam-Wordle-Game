@@ -1,11 +1,22 @@
-<html lang='en'>
-  <head>
-    <meta charset='UTF-8' />
-    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
-    <title>Mickes WordleGame</title>
-  </head>
-  <body>
-    <p className='bg-red-500'> Mainffs</p>
-    {{{body}}}
-  </body>
-</html>
+{{{body}}}
+
+{{#each playerScore}}
+
+  <div>
+    <h2>Player: {{this.playerName}}</h2>
+    {{#if this.includedDoubble}}
+      <strong>Included doubble letters</strong>
+    {{else}}
+      <strong>Did not include doubble letters</strong>
+    {{/if}}
+    {{!-- <strong>Includes double letters: {{this.includedDoubble}}</strong> --}}
+    <strong>Word length: {{this.correctWordLength}}</strong>
+    <strong>Correct Word: {{this.correctWord}}</strong>
+    <ul>
+      <strong>Guessed words:</strong>
+      {{#each this.guess}}
+        <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/each}}
