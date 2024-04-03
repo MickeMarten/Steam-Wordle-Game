@@ -1,19 +1,21 @@
 {{{body}}}
 
 {{#each playerScore}}
-
-  <div>
-    <h2>Player: {{this.playerName}}</h2>
+  <div
+    class='bg-red-500 p-4 rounded-lg shadow-md mb-4 mw-60 flex flex-col w-[300px]'
+  >
+    <h2 class='text-white text-lg mb-2'>Player: {{this.playerName}}</h2>
     {{#if this.includedDoubble}}
-      <strong>Included doubble letters</strong>
+      <strong class='text-white'>Included double letters</strong>
     {{else}}
-      <strong>Did not include doubble letters</strong>
+      <strong class='text-white'>Did not include double letters</strong>
     {{/if}}
-    {{!-- <strong>Includes double letters: {{this.includedDoubble}}</strong> --}}
-    <strong>Word length: {{this.correctWordLength}}</strong>
-    <strong>Correct Word: {{this.correctWord}}</strong>
-    <ul>
-      <strong>Guessed words:</strong>
+    <strong class='text-white block mb-2'>Word length:
+      {{this.correctWordLength}}</strong>
+    <strong class='text-white block mb-2'>Correct Word:
+      {{this.correctWord}}</strong>
+    <ul class='text-white'>
+      <strong class='block mb-1'>Guessed words:</strong>
       {{#each this.guess}}
         <li>{{this}}</li>
       {{/each}}

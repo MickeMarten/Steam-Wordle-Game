@@ -1,7 +1,9 @@
-<aside>
-  <h1>{{sideMenu.pageTitle}}</h1>
-  <li><a href=''>{{sideMenu.about}}</a></li>
-  <li><a href=''>{{sideMenu.wordle}}</a></li>
-  <li><a href=''>{{sideMenu.highScore}}</a></li>
-  <li><a href=''>{{sideMenu.moreGames}}</a></li>
-</aside>
+<div class='h-full flex flex-col gap-10'>
+  <h1 class='text-white mb-4 text-3xl'>{{sideMenu.pageTitle}}</h1>
+  <ul class='text-white flex flex-col gap-28 text-2xl'>
+    <li><a href='/aboutus' class='block'>{{sideMenu.about}}</a></li>
+    <li><a href='/' class='block'>{{sideMenu.wordle}}</a></li>
+    <li><a href='/highscore' class='block'>{{sideMenu.highScore}}</a></li>
+    <li><a href='' class='block'>{{sideMenu.moreGames}}</a></li>
+  </ul>
+</div>

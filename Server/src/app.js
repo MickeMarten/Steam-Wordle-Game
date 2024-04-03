@@ -24,6 +24,7 @@ app.get('/', async (req, res) => {
   const html = await fs.readFile('../B7-Wordle/dist/index.handlebars');
   res.type('html').send(html);
 });
+express.static('public');
 
 app.use('/assets', express.static('../B7-Wordle/dist/assets'));
 
