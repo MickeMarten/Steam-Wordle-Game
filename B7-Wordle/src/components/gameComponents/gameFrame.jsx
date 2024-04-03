@@ -148,6 +148,7 @@ function GameFrame() {
         showModal={showModal}
         onClick={() => {
           postToServer('/api/playerScoreData', resultsArray);
+          window.location.href = '/highscore';
         }}
       />
     </section>
