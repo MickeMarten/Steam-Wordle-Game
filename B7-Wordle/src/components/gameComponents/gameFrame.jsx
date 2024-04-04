@@ -39,8 +39,8 @@ function GameFrame() {
     }
   }
 
-  async function playerResultsArray() {
-    const playerGuess = result.map((item) => item.letter);
+  async function playerResultsArray(evaluatePlayerInput) {
+    const playerGuess = evaluatePlayerInput.map((item) => item.letter);
     const playerWords = playerGuess.join('');
     setWordGuessList([...wordGuessList, playerWords]);
 
@@ -53,17 +53,16 @@ function GameFrame() {
     };
 
     setResultsArray(playerResults);
-    console.log(resultsArray);
   }
 
   const guessWord = () => {
     const evaluatePlayerInput = evaluateGameInput(wordGuess, correctWord);
     setResult(evaluatePlayerInput);
     //Duplicerad kod, bör fixas. 3 rader nedåt.
-    const ifPlayerWinWord = result.map(function (item) {
+    const ifPlayerWinWord = evaluatePlayerInput.map(function (item) {
       return item.letter;
     });
-    playerResultsArray();
+    playerResultsArray(evaluatePlayerInput);
     const playerWins = ifPlayerWinWord.join('');
 
     if (playerWins === correctWord) {
@@ -139,6 +138,7 @@ function GameFrame() {
             let input = e.target.value;
             setWordGuess(input);
           }}
+          inputValue={wordGuess}
         />
 
         <Button label="Guess word" handleClick={guessWord} />
@@ -156,35 +156,3 @@ function GameFrame() {
 }
 
 export default GameFrame;
-
-// Change name of postGameMode function
-// async function postGameMode() {
-//   const loot = {
-//     letterQuantity: letterQuantity,
-//     includeDouble: includeDouble,
-//   };
-//   const response = await fetch('/api/gamemodehandler', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(loot),
-//   });
-//   const data = await response.json();
-//   console.log(data);
-//   setcorrectWord(data.randomWord);
-// }
-// async function postGameResult() {
-//   const response = await fetch('/api/playerScoreData', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(resultsArray),
-//   });
-//   if (response.ok) {
-//     console.log('Result arrived');
-//   } else {
-//     console.error('Result failed to deliverd');
-//   }
-// }

@@ -5,6 +5,8 @@ import playerScoreRouter from '../routes/playerScoreHandler.js';
 import wordHandlerRouter from '../routes/gameModeHandler.js';
 import highScorePageRouter from '../routes/highScore.js';
 import aboutUsRouter from '../routes/aboutUs.js';
+import mongoose from 'mongoose';
+
 const app = express();
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
@@ -15,6 +17,8 @@ app.use('/api', wordHandlerRouter);
 app.use('/api', playerScoreRouter);
 app.use('/', highScorePageRouter);
 app.use('/', aboutUsRouter);
+
+mongoose.connect(process.env.DB_URL);
 
 app.use((req, res, next) => {
   console.log(req.method, req.path);

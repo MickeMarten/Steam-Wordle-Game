@@ -1,12 +1,11 @@
 import Router from 'express';
+import { playerScoreData } from '../src/models.js';
 
 const playerScoreRouter = Router();
-
-export const playerScore = [];
-
 playerScoreRouter.post('/playerScoreData', async (req, res) => {
   const playerResult = req.body;
-  playerScore.push(playerResult);
+  const playerResultData = new playerScoreData(playerResult);
+  await playerResultData.save();
 });
 
 export default playerScoreRouter;
