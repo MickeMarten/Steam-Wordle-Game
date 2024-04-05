@@ -16,6 +16,8 @@ function GameFrame() {
   const [playerName, setPlayerName] = useState('');
   const [showModal, setShowModal] = useState(true);
   const [wordGuessList, setWordGuessList] = useState([]);
+  const [gameTime, setGameTime] = useState(0);
+  console.log(gameTime);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -50,6 +52,7 @@ function GameFrame() {
       correctWordLength: letterQuantity,
       includedDoubble: includeDouble,
       playerName: playerName,
+      gameTime: gameTime,
     };
 
     setResultsArray(playerResults);
@@ -68,8 +71,17 @@ function GameFrame() {
     if (playerWins === correctWord) {
       setGameInfo('winner!');
       toggleModal();
+      let stopTime = gameTime.getSeconds();
+      setGameTime(stopTime);
+      console.log('här2', typeof gameTime);
     }
   };
+
+  function startgameTimer() {
+    let startGame = new Date();
+    setGameTime(startGame);
+    console.log('här', typeof gameTime);
+  }
 
   return (
     <section className="steamgreen w-[550px] h-[700px] flex flex-col items-center gap-10 text-white mt-5 border">
@@ -130,6 +142,7 @@ function GameFrame() {
 
             setGameInfo(`Start guessing ${playerName}!`);
             postToServer('/api/gamemodehandler', loot);
+            startgameTimer();
           }}
         />
         <PlayerInput

@@ -18,8 +18,6 @@ app.use('/api', playerScoreRouter);
 app.use('/', highScorePageRouter);
 app.use('/', aboutUsRouter);
 
-mongoose.connect(process.env.DB_URL);
-
 app.use((req, res, next) => {
   console.log(req.method, req.path);
   next();
