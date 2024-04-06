@@ -18,8 +18,6 @@ function GameFrame() {
   const [wordGuessList, setWordGuessList] = useState([]);
   const [gameTime, setGameTime] = useState(0);
 
-  console.log('Stateflöde', gameTime);
-
   const toggleModal = () => {
     setShowModal(!showModal);
   };
