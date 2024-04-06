@@ -17,7 +17,7 @@ function GameFrame() {
   const [showModal, setShowModal] = useState(true);
   const [wordGuessList, setWordGuessList] = useState([]);
   const [gameTime, setGameTime] = useState(0);
-  console.log(gameTime);
+  console.log('öppen', typeof gameTime, gameTime);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -71,16 +71,23 @@ function GameFrame() {
     if (playerWins === correctWord) {
       setGameInfo('winner!');
       toggleModal();
-      let stopTime = gameTime.getSeconds();
-      setGameTime(stopTime);
-      console.log('här2', typeof gameTime);
+
+      let stopGame = new Date();
+      let stopGameTime = stopGame.getTime();
+      let timerMiliSeconds = stopGameTime - gameTime;
+      let timerSeconds = timerMiliSeconds / 1000;
+      console.log('timerSeconds', timerSeconds);
+
+      setGameTime(timerSeconds);
+      console.log('sista', gameTime);
     }
   };
 
   function startgameTimer() {
     let startGame = new Date();
-    setGameTime(startGame);
-    console.log('här', typeof gameTime);
+    let startGameTime = startGame.getTime();
+    setGameTime(startGameTime);
+    console.log('startGame', typeof gameTime, gameTime);
   }
 
   return (

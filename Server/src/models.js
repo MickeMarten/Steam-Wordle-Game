@@ -6,7 +6,7 @@ const playerScoreData = mongoose.model('playerScore', {
   correctWordLength: Number,
   includedDoubble: Boolean,
   playerName: String,
-  gameTime: Object,
+  gameTime: Number,
 });
 
 export { playerScoreData };
