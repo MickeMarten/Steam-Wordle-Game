@@ -6,11 +6,16 @@
     <title>Wordle Highscore</title>
   </head>
   <body class='steamDark'>
-    <aside class="bg-red-500 mw-48 h-screen fixed top-0 left-0 p-4 "> 
+  
+    <main class="flex flex-row">
+        <aside class="steamGreen mw-48 h-5/5 border-r-2 p-4"> 
     {{> aside}}
     </aside>
-    <main>
-
+      <section class="h-full w-4/5 mr-10 ml-10 flex flex-wrap justify-start steamGreen"> 
+        
+      {{> playerScoreCard}}
+     
+      </section>
     </main>
   </body>
 </html>

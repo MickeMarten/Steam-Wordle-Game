@@ -13,7 +13,6 @@ function wordRandomizer(wordsArray, length, doubleLetters) {
 
     return true;
   });
-  console.log(selectableWords);
 
   if (selectableWords.length === 0) {
     return null;
@@ -21,7 +20,7 @@ function wordRandomizer(wordsArray, length, doubleLetters) {
 
   const randomIndex = Math.floor(Math.random() * selectableWords.length);
   const selectedWord = selectableWords[randomIndex];
-  console.log(length, doubleLetters, selectedWord);
+  console.log('rätt ord:', length, doubleLetters, selectedWord);
   return selectedWord;
 }
 
@@ -34,11 +33,8 @@ async function getWordList() {
   const fetchedWordList = Object.keys(data).filter(
     (word) => word.length < 11 && word.length > 1
   );
-  console.log(fetchedWordList);
   return fetchedWordList;
 }
-
-getWordList();
 
 async function gameModehandler(playerMode) {
   const wordList = await getWordList();

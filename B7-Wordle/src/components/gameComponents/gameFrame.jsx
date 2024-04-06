@@ -16,6 +16,8 @@ function GameFrame() {
   const [playerName, setPlayerName] = useState('');
   const [showModal, setShowModal] = useState(true);
   const [wordGuessList, setWordGuessList] = useState([]);
+  const [gameTime, setGameTime] = useState(0);
+  console.log('öppen', typeof gameTime, gameTime);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -39,8 +41,8 @@ function GameFrame() {
     }
   }
 
-  async function playerResultsArray() {
-    const playerGuess = result.map((item) => item.letter);
+  async function playerResultsArray(evaluatePlayerInput) {
+    const playerGuess = evaluatePlayerInput.map((item) => item.letter);
     const playerWords = playerGuess.join('');
     setWordGuessList([...wordGuessList, playerWords]);
 
@@ -50,27 +52,43 @@ function GameFrame() {
       correctWordLength: letterQuantity,
       includedDoubble: includeDouble,
       playerName: playerName,
+      gameTime: gameTime,
     };
 
     setResultsArray(playerResults);
-    console.log(resultsArray);
   }
 
   const guessWord = () => {
     const evaluatePlayerInput = evaluateGameInput(wordGuess, correctWord);
     setResult(evaluatePlayerInput);
     //Duplicerad kod, bör fixas. 3 rader nedåt.
-    const ifPlayerWinWord = result.map(function (item) {
+    const ifPlayerWinWord = evaluatePlayerInput.map(function (item) {
       return item.letter;
     });
-    playerResultsArray();
+    playerResultsArray(evaluatePlayerInput);
     const playerWins = ifPlayerWinWord.join('');
 
     if (playerWins === correctWord) {
       setGameInfo('winner!');
       toggleModal();
+
+      let stopGame = new Date();
+      let stopGameTime = stopGame.getTime();
+      let timerMiliSeconds = stopGameTime - gameTime;
+      let timerSeconds = timerMiliSeconds / 1000;
+      console.log('timerSeconds', timerSeconds);
+
+      setGameTime(timerSeconds);
+      console.log('sista', gameTime);
     }
   };
+
+  function startgameTimer() {
+    let startGame = new Date();
+    let startGameTime = startGame.getTime();
+    setGameTime(startGameTime);
+    console.log('startGame', typeof gameTime, gameTime);
+  }
 
   return (
     <section className="steamgreen w-[550px] h-[700px] flex flex-col items-center gap-10 text-white mt-5 border">
@@ -131,6 +149,7 @@ function GameFrame() {
 
             setGameInfo(`Start guessing ${playerName}!`);
             postToServer('/api/gamemodehandler', loot);
+            startgameTimer();
           }}
         />
         <PlayerInput
@@ -139,6 +158,7 @@ function GameFrame() {
             let input = e.target.value;
             setWordGuess(input);
           }}
+          inputValue={wordGuess}
         />
 
         <Button label="Guess word" handleClick={guessWord} />
@@ -148,6 +168,7 @@ function GameFrame() {
         showModal={showModal}
         onClick={() => {
           postToServer('/api/playerScoreData', resultsArray);
+          window.location.href = '/highscore';
         }}
       />
     </section>
@@ -155,35 +176,3 @@ function GameFrame() {
 }
 
 export default GameFrame;
-
-// Change name of postGameMode function
-// async function postGameMode() {
-//   const loot = {
-//     letterQuantity: letterQuantity,
-//     includeDouble: includeDouble,
-//   };
-//   const response = await fetch('/api/gamemodehandler', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(loot),
-//   });
-//   const data = await response.json();
-//   console.log(data);
-//   setcorrectWord(data.randomWord);
-// }
-// async function postGameResult() {
-//   const response = await fetch('/api/playerScoreData', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(resultsArray),
-//   });
-//   if (response.ok) {
-//     console.log('Result arrived');
-//   } else {
-//     console.error('Result failed to deliverd');
-//   }
-// }

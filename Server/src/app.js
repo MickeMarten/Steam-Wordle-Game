@@ -5,6 +5,8 @@ import playerScoreRouter from '../routes/playerScoreHandler.js';
 import wordHandlerRouter from '../routes/gameModeHandler.js';
 import highScorePageRouter from '../routes/highScore.js';
 import aboutUsRouter from '../routes/aboutUs.js';
+import mongoose from 'mongoose';
+
 const app = express();
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
