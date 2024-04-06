@@ -17,7 +17,8 @@ function GameFrame() {
   const [showModal, setShowModal] = useState(true);
   const [wordGuessList, setWordGuessList] = useState([]);
   const [gameTime, setGameTime] = useState(0);
-  console.log('öppen', typeof gameTime, gameTime);
+
+  console.log('Stateflöde', gameTime);
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -41,7 +42,7 @@ function GameFrame() {
     }
   }
 
-  async function playerResultsArray(evaluatePlayerInput) {
+  async function playerResultsArray(evaluatePlayerInput, gameTime) {
     const playerGuess = evaluatePlayerInput.map((item) => item.letter);
     const playerWords = playerGuess.join('');
     setWordGuessList([...wordGuessList, playerWords]);
@@ -65,35 +66,33 @@ function GameFrame() {
     const ifPlayerWinWord = evaluatePlayerInput.map(function (item) {
       return item.letter;
     });
-    playerResultsArray(evaluatePlayerInput);
     const playerWins = ifPlayerWinWord.join('');
 
     if (playerWins === correctWord) {
       setGameInfo('winner!');
+      const stopTime = stopGameTime();
       toggleModal();
-
-      let stopGame = new Date();
-      let stopGameTime = stopGame.getTime();
-      let timerMiliSeconds = stopGameTime - gameTime;
-      let timerSeconds = timerMiliSeconds / 1000;
-      console.log('timerSeconds', timerSeconds);
-
-      setGameTime(timerSeconds);
-      console.log('sista', gameTime);
+      playerResultsArray(evaluatePlayerInput, stopTime);
     }
   };
-
-  function startgameTimer() {
-    let startGame = new Date();
-    let startGameTime = startGame.getTime();
+  function startGameTimer() {
+    const startGameTime = Date.now();
     setGameTime(startGameTime);
-    console.log('startGame', typeof gameTime, gameTime);
+  }
+
+  function stopGameTime() {
+    const stopGameTime = Date.now();
+    const timerMilliseconds = stopGameTime - gameTime;
+    const timerSeconds = timerMilliseconds / 1000;
+    return timerSeconds;
   }
 
   return (
     <section className="steamgreen w-[550px] h-[700px] flex flex-col items-center gap-10 text-white mt-5 border">
       <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
-        <p className="text-2xl">{gameInfo}</p>
+        <p className="text-2xl">
+          {gameInfo}, {gameTime}
+        </p>
       </div>
 
       <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
@@ -149,7 +148,7 @@ function GameFrame() {
 
             setGameInfo(`Start guessing ${playerName}!`);
             postToServer('/api/gamemodehandler', loot);
-            startgameTimer();
+            startGameTimer();
           }}
         />
         <PlayerInput
@@ -168,6 +167,7 @@ function GameFrame() {
         showModal={showModal}
         onClick={() => {
           postToServer('/api/playerScoreData', resultsArray);
+
           window.location.href = '/highscore';
         }}
       />
