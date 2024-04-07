@@ -23,7 +23,7 @@ app.use((req, res, next) => {
   next();
 });
 app.get('/', async (req, res) => {
-  const html = await fs.readFile('../B7-Wordle/dist/index.handlebars');
+  const html = await fs.readFile('../B7-Wordle/dist/index.html');
   res.type('html').send(html);
 });
 express.static('public');
