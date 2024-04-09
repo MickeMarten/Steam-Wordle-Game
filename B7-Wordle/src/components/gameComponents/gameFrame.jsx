@@ -86,87 +86,89 @@ function GameFrame() {
   }
 
   return (
-    <section className="steamgreen w-[550px] h-[700px] flex flex-col items-center gap-10 text-white mt-5 border">
-      <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
-        <p className="text-2xl">{gameInfo}</p>
+    <section className="self-center justify-self-center">
+      <div className="steamgreen w-[550px] h-[700px] flex flex-col items-center gap-10 text-white mt-5 border">
+        <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
+          <p className="text-2xl">{gameInfo}</p>
+        </div>
+
+        <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
+          <ul className="flex flex-row text-2xl">
+            {result.map((item, index) => (
+              <li
+                key={index}
+                className={
+                  item.result === 'Incorrect'
+                    ? 'text-red-500'
+                    : item.result === 'Misplaced'
+                    ? 'text-yellow-500'
+                    : 'text-green-500'
+                }
+              >
+                {item.letter}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <menu className="steamDark border border-white max-w-3xl h-[400px] flex flex-col justify-center items-center p-6 rounded-lg mb-5">
+          <Checkbox
+            checked={includeDouble}
+            checkOne="Yes"
+            checkBoxInfo="Should the word include double letters?"
+            handleChange={(e) => {
+              setIncludeDouble(e.target.checked);
+            }}
+          />
+
+          <LetterQuantityDropdown
+            label="Choose how many letters the word should include"
+            handleChange={(e) => {
+              setLetterQuantity(e.target.value);
+            }}
+          />
+          <PlayerInput
+            label="Write your name here!"
+            handlePlayerInput={(e) => {
+              let input = e.target.value;
+              setPlayerName(input);
+            }}
+          />
+
+          <Button
+            label="Start game!"
+            handleClick={() => {
+              const loot = {
+                letterQuantity: letterQuantity,
+                includeDouble: includeDouble,
+              };
+
+              setGameInfo(`Start guessing ${playerName}!`);
+              postToServer('/api/gamemodehandler', loot);
+              startGameTimer();
+            }}
+          />
+          <PlayerInput
+            label="Guess your word down here!"
+            handlePlayerInput={(e) => {
+              let input = e.target.value;
+              setWordGuess(input);
+            }}
+            inputValue={wordGuess}
+          />
+
+          <Button label="Guess word" handleClick={guessWord} />
+        </menu>
+        <Modal
+          playerName={playerName}
+          showModal={showModal}
+          onClick={() => {
+            postToServer('/api/playerScoreData', resultsArray);
+
+            window.location.href = '/highscore';
+          }}
+        />
       </div>
-
-      <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
-        <ul className="flex flex-row text-2xl">
-          {result.map((item, index) => (
-            <li
-              key={index}
-              className={
-                item.result === 'Incorrect'
-                  ? 'text-red-500'
-                  : item.result === 'Misplaced'
-                  ? 'text-yellow-500'
-                  : 'text-green-500'
-              }
-            >
-              {item.letter}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <menu className="steamDark border border-white max-w-3xl h-[400px] flex flex-col justify-center items-center p-6 rounded-lg mb-5">
-        <Checkbox
-          checked={includeDouble}
-          checkOne="Yes"
-          checkBoxInfo="Should the word include double letters?"
-          handleChange={(e) => {
-            setIncludeDouble(e.target.checked);
-          }}
-        />
-
-        <LetterQuantityDropdown
-          label="Choose how many letters the word should include"
-          handleChange={(e) => {
-            setLetterQuantity(e.target.value);
-          }}
-        />
-        <PlayerInput
-          label="Write your name here!"
-          handlePlayerInput={(e) => {
-            let input = e.target.value;
-            setPlayerName(input);
-          }}
-        />
-
-        <Button
-          label="Start game!"
-          handleClick={() => {
-            const loot = {
-              letterQuantity: letterQuantity,
-              includeDouble: includeDouble,
-            };
-
-            setGameInfo(`Start guessing ${playerName}!`);
-            postToServer('/api/gamemodehandler', loot);
-            startGameTimer();
-          }}
-        />
-        <PlayerInput
-          label="Guess your word down here!"
-          handlePlayerInput={(e) => {
-            let input = e.target.value;
-            setWordGuess(input);
-          }}
-          inputValue={wordGuess}
-        />
-
-        <Button label="Guess word" handleClick={guessWord} />
-      </menu>
-      <Modal
-        playerName={playerName}
-        showModal={showModal}
-        onClick={() => {
-          postToServer('/api/playerScoreData', resultsArray);
-
-          window.location.href = '/highscore';
-        }}
-      />
     </section>
   );
 }
