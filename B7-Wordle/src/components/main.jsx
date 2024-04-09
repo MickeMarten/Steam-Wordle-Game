@@ -2,7 +2,7 @@ import GameFrame from './gameComponents/gameFrame';
 import SidePanel from './aside';
 function MainSection() {
   return (
-    <main className="flex steamDark h-5/5">
+    <main className="flex flex-row steamDark h-full">
       <SidePanel />
       <GameFrame />
     </main>

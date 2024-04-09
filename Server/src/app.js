@@ -23,9 +23,15 @@ app.use((req, res, next) => {
   next();
 });
 app.get('/', async (req, res) => {
-  const html = await fs.readFile('../B7-Wordle/dist/index.html');
-  res.type('html').send(html);
+  try {
+    const html = await fs.readFile('../B7-Wordle/dist/index.html');
+    res.type('html').send(html);
+  } catch (error) {
+    console.error('Error occurred while reading the file:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
 express.static('public');
 
 app.use('/assets', express.static('../B7-Wordle/dist/assets'));

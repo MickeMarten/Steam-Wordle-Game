@@ -86,7 +86,7 @@ function GameFrame() {
   }
 
   return (
-    <section className="self-center justify-self-center">
+    <section className="self-center">
       <div className="steamgreen w-[550px] h-[700px] flex flex-col items-center gap-10 text-white mt-5 border">
         <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
           <p className="text-2xl">{gameInfo}</p>

@@ -1,8 +1,8 @@
 function SidePanel() {
   return (
-    <aside class="steamGreen mw-48 h-full border-r-2 p-4">
+    <aside class="steamGreen max-w-48 h-full border-r-2 p-4 md:">
       <div className="h-screen flex flex-col gap-10">
-        <h1 className="text-white mb-4 text-3xl">Wordle Gamingss</h1>
+        <h1 className="text-white mb-4 text-3xl">Wordle Gamings</h1>
         <ul className="text-white flex flex-col gap-28 text-2xl">
           <li>
             <a href="/aboutus" className="block hover:bg-green-800">
