@@ -86,8 +86,8 @@ function GameFrame() {
   }
 
   return (
-    <section className="self-center">
-      <div className="steamgreen w-[550px] h-[700px] flex flex-col items-center gap-10 text-white mt-5 border">
+    <section className="w-full flex justify-center">
+      <div className="steamgreen flex flex-col items-center gap-10 text-white mt-5 border max-w-[550px] h-[700px]">
         <div className="steamDark w-96 h-40 flex justify-center items-center mt-5 rounded-lg">
           <p className="text-2xl">{gameInfo}</p>
         </div>
@@ -111,7 +111,7 @@ function GameFrame() {
           </ul>
         </div>
 
-        <menu className="steamDark border border-white max-w-3xl h-[400px] flex flex-col justify-center items-center p-6 rounded-lg mb-5">
+        <menu className="steamDark border border-white max-w-3xl h-[500px] flex flex-col justify-center items-center p-6 rounded-lg mb-5">
           <Checkbox
             checked={includeDouble}
             checkOne="Yes"

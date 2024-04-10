@@ -1,6 +1,6 @@
 function SidePanel() {
   return (
-    <aside class="steamGreen max-w-48 h-full border-r-2 p-4 md:">
+    <aside class="steamGreen max-w-48 h-full border-r-2 p-4">
       <div className="h-screen flex flex-col gap-10">
         <h1 className="text-white mb-4 text-3xl">Wordle Gamings</h1>
         <ul className="text-white flex flex-col gap-28 text-2xl">
